@@ -47,20 +47,26 @@ class Session(models.Model):
         }
 
     def calculate_scores(self):
-        options = ["A", "B", "C", "D"]
-        num_ans = {o: 0 for o in options}
-        sum_ans = {o: 0.0 for o in options}
+        def average(answers):
+            options = ["A", "B", "C", "D"]
+            num_ans = {o: 0 for o in options}
+            sum_ans = {o: 0.0 for o in options}
 
-        for answer in self.response_set.all():
-            option = answer.choice.option
-            num_ans[option] += 1
-            sum_ans[option] += answer.value
+            for answer in answers:
+                option = answer.choice.option
+                num_ans[option] += 1
+                sum_ans[option] += answer.value
 
-        for o in options:
-            if num_ans[o] == 0:
-                num_ans[o] = 1
-
-        return {o: sum_ans[o] / num_ans[o] for o in options}
+            for o in options:
+                if num_ans[o] == 0:
+                    num_ans[o] = 1
+            return {o: sum_ans[o] / num_ans[o] for o in options}
+        ids = set(response.choice.question.question_group.id for response in self.response_set.all())
+        scores = {}
+        for qgid in ids:
+            ans = self.response_set.filter(choice__question__question_group_id=1)
+            scores[qgid] = average(ans)
+        return scores
 
 
 class Response(models.Model):
