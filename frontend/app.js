@@ -144,6 +144,7 @@ app.controller(
                     }
                     $scope.showLoading = false;
                     $scope.statusPulled = true;
+                    $scope.drawGraphs();
                 }, function(msg){
                     $scope.errorReason = errorString(msg);
                     $scope.showLoading = false;
@@ -161,6 +162,20 @@ app.controller(
                     $scope.errorReason = errorString(msg);
                     $scope.showLoading = false;
                 });
+            };
+
+            $scope.drawSingleGraph = function(element_id, scores) {
+                drawRadarChart(element_id, scores, scores);
+            };
+
+
+            $scope.drawGraphs = function() {
+                  for (var i in $scope.recentResults) {
+                      var result = $scope.recentResults[i];
+                      var id = "chart-recent-" + result.id;
+                      var scores = result.scores;
+                      $scope.drawSingleGraph(id, scores);
+                  }
             };
 
             $scope.pullStatus();

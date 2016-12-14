@@ -43,6 +43,7 @@ class Session(models.Model):
             "name": self.name,
             "date": self.date_submitted.isoformat(),
             "scores": self.calculate_scores(),
+            "id": self.id,
         }
 
     def calculate_scores(self):

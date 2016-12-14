@@ -7,6 +7,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.2/require.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="radar.js"></script>
+    <script src="drawRadar.js"></script>
     <script src="app.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Libre+Franklin" rel="stylesheet">
@@ -43,6 +46,9 @@
                 <h3>
                     {{ group.heading }}
                 </h3>
+                <p>
+                    {{ group.text }}
+                </p>
 
                 <div class="question" ng-repeat="question in group.questions">
                     <h4 class="question_description">
@@ -85,8 +91,11 @@
             Rezultate recente
         </h1>
         <div ng-repeat="result in recentResults">
-            <span>{{ result.date }}</span>
-            <span>{{ result.scores }}</span>
+            <div>
+                <div id="{{ 'chart-recent-' + result.id}}"></div>
+                {{ result.name }}
+                {{ result.date }}
+            </div>
         </div>
     </div>
 
