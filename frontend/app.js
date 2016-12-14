@@ -87,52 +87,52 @@ app.controller(
                 return next;
             }
 
-	    var timer = null;
+            var timer = null;
             $scope.makeAdjustments = function (id, delay) {
-		if(timer){
-			$timeout.cancel(timer);
-			timer = null;
-		}
-		timer = $timeout(
-			function(){				
-				var questionID = Math.floor((id - 1) / 4);
-				var sumOverChoices = 0;
-					var next, prev;
+                if (timer) {
+                    $timeout.cancel(timer);
+                    timer = null;
+                }
+                timer = $timeout(
+                    function () {
+                        var questionID = Math.floor((id - 1) / 4);
+                        var sumOverChoices = 0;
+                        var next, prev;
 
-					for (i = 1; i <= 4; i++) {
-							sumOverChoices = sumOverChoices + parseInt($scope.responses[questionID * 4 + i][0]);
-					}
+                        for (i = 1; i <= 4; i++) {
+                            sumOverChoices = sumOverChoices + parseInt($scope.responses[questionID * 4 + i][0]);
+                        }
 
-					while(sumOverChoices > 100){
-						next = determineNext(id, questionID);	
-						if(parseInt($scope.responses[next][0]) >= (sumOverChoices - 100)){
-							$scope.responses[next][0] = parseInt($scope.responses[next][0]) - (sumOverChoices - 100);
-							sumOverChoices = 100;
-						}
-						else {
-							sumOverChoices = sumOverChoices - parseInt($scope.responses[next][0]);
-							$scope.responses[next][0] = 0;
-							id = next;
-						}
-					}
-					while(sumOverChoices < 100){
-						prev = determinePrev(id, questionID);	
-						if(parseInt(100 - parseInt($scope.responses[prev][0])) >= (100 - sumOverChoices)){
-							$scope.responses[prev][0] = parseInt($scope.responses[prev][0]) + (100 - sumOverChoices);
-							sumOverChoices = 100;
-						}
-						else {
-							sumOverChoices = sumOverChoices + (100 - parseInt($scope.responses[prev][0]));
-							$scope.responses[prev][0] = 100;
-							id = next;
-						}
+                        while (sumOverChoices > 100) {
+                            next = determineNext(id, questionID);
+                            if (parseInt($scope.responses[next][0]) >= (sumOverChoices - 100)) {
+                                $scope.responses[next][0] = parseInt($scope.responses[next][0]) - (sumOverChoices - 100);
+                                sumOverChoices = 100;
+                            }
+                            else {
+                                sumOverChoices = sumOverChoices - parseInt($scope.responses[next][0]);
+                                $scope.responses[next][0] = 0;
+                                id = next;
+                            }
+                        }
+                        while (sumOverChoices < 100) {
+                            prev = determinePrev(id, questionID);
+                            if (parseInt(100 - parseInt($scope.responses[prev][0])) >= (100 - sumOverChoices)) {
+                                $scope.responses[prev][0] = parseInt($scope.responses[prev][0]) + (100 - sumOverChoices);
+                                sumOverChoices = 100;
+                            }
+                            else {
+                                sumOverChoices = sumOverChoices + (100 - parseInt($scope.responses[prev][0]));
+                                $scope.responses[prev][0] = 100;
+                                id = next;
+                            }
 
-					}
+                        }
 
-				}, 
-				delay
-			);
-		};
+                    },
+                    delay
+                );
+            };
 
             $scope.sendQuestionnaire = function () {
                 $scope.showLoading = true;
@@ -146,60 +146,77 @@ app.controller(
 
                 $http.post(
                     $scope.submitEndpoint,
-                    { responses: submitData }
-                ).then(function(data) {
+                    {responses: submitData}
+                ).then(function (data) {
                     $scope.showTest = false;
                     $scope.pullStatus();
                     $scope.showLoading = false;
-                }, function(msg){
+                }, function (msg) {
                     $scope.errorReason = errorString(msg);
                     $scope.showLoading = false;
                 });
             };
 
-            $scope.pullStatus = function() {
+            $scope.pullStatus = function () {
                 $http.get($scope.stateEndpoint)
-                .then(function(data) {
-                    $scope.recentResults = data.data.otherRecentTests;
-                    $scope.ownResults = data.data.ownTestResults;
+                    .then(function (data) {
+                        $scope.recentResults = data.data.otherRecentTests;
+                        $scope.ownResults = data.data.ownTestResults;
 
-                    if(data.hasUnfinishedTest) {
-                        $scope.showTest = true;
-                    }
-                    $scope.showLoading = false;
-                    $scope.statusPulled = true;
-                    $scope.drawGraphs();
-                }, function(msg){
-                    $scope.errorReason = errorString(msg);
-                    $scope.showLoading = false;
-                });
+                        if (data.hasUnfinishedTest) {
+                            $scope.showTest = true;
+                        }
+                        $scope.showLoading = false;
+                        $scope.statusPulled = true;
+
+                        angular.element("#results-block", $scope.drawGraphs);
+                        $scope.drawGraphs();
+                    }, function (msg) {
+                        $scope.errorReason = errorString(msg);
+                        $scope.showLoading = false;
+                    });
             };
 
-            $scope.startTest = function() {
+            $scope.startTest = function () {
                 $scope.showLoading = true;
                 $http.get($scope.questionsEndpoint)
-                .then(function (data) {
-                    $scope.questionData = data.data;
-                    $scope.showTest = true;
-                    $scope.showLoading = false;
-                }, function(msg){
-                    $scope.errorReason = errorString(msg);
-                    $scope.showLoading = false;
-                });
+                    .then(function (data) {
+                        $scope.questionData = data.data;
+                        $scope.showTest = true;
+                        $scope.showLoading = false;
+                    }, function (msg) {
+                        $scope.errorReason = errorString(msg);
+                        $scope.showLoading = false;
+                    });
             };
 
-            $scope.drawSingleGraph = function(element_id, scores) {
-                drawRadarChart(element_id, scores, scores);
+            $scope.drawSingleGraph = function (element_id, scores) {
+                drawRadarChart(element_id, scores["1"], scores["2"]);
+                console.log(
+                    "drawRadarChart('" +
+                    element_id +
+                    "', " +
+                    JSON.stringify(scores["1"]) +
+                    ", " +
+                    JSON.stringify(scores["2"]) +
+                    ")"
+                );
             };
 
 
-            $scope.drawGraphs = function() {
-                  for (var i in $scope.recentResults) {
-                      var result = $scope.recentResults[i];
-                      var id = "chart-recent-" + result.id;
-                      var scores = result.scores;
-                      $scope.drawSingleGraph(id, scores);
-                  }
+            $scope.drawGraphs = function () {
+                for (var i in $scope.recentResults) {
+                    $scope.drawSingleGraph(
+                        "chart-recent-" + $scope.recentResults[i].id,
+                        $scope.recentResults[i].scores
+                    );
+                }
+                for (var j in $scope.ownResults) {
+                    $scope.drawSingleGraph(
+                        "chart-personal-" + $scope.ownResults[j].id,
+                        $scope.ownResults[j].scores
+                    );
+                }
             };
 
             $scope.pullStatus();

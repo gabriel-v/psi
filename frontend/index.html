@@ -76,28 +76,34 @@
         <button>Trimite!</button>
     </form>
 
-    <div ng-show="ownResults.length > 0">
-        <h1>
-            Rezultate personale
-        </h1>
-        <div ng-repeat="result in ownResults">
-            <span>{{ result.date }}</span>
-            <span>{{ result.scores }}</span>
+    <div id="results-block">
+        <div ng-show="ownResults.length > 0">
+            <h1>
+                Rezultate personale
+            </h1>
+            <div ng-repeat="result in ownResults">
+                <div>
+                    <div id="{{ 'chart-personal-' + result.id}}"></div>
+                    {{ result.name }}
+                    {{ result.date }}
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div ng-show="recentResults.length > 0">
-        <h1>
-            Rezultate recente
-        </h1>
-        <div ng-repeat="result in recentResults">
-            <div>
-                <div id="{{ 'chart-recent-' + result.id}}"></div>
-                {{ result.name }}
-                {{ result.date }}
+        <div ng-show="recentResults.length > 0">
+            <h1>
+                Rezultate recente
+            </h1>
+            <div ng-repeat="result in recentResults">
+                <div>
+                    <div data-ng-init="drawGraphs()" id="{{ 'chart-recent-' + result.id}}"></div>
+                    {{ result.name }}
+                    {{ result.date }}
+                </div>
             </div>
         </div>
     </div>
+
 
 </div>
 

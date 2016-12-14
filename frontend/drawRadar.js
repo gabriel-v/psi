@@ -1,11 +1,17 @@
 'use strict';
 function getAxisFromScores(scores) {
     var Options = ["A", "B", "C", "D"];
+    var OptionLabels = {
+        "A": "Cultură de tip clan",
+        "B": "Cultură autocrată",
+        "C": "Cultură de piață",
+        "D": "Cultură ierarhică"
+    };
     var objs = [];
     for(var i in Options) {
         var o = Options[i];
         objs.push({
-            axis: o,
+            axis: OptionLabels[o],
             value: scores[o]
         });
     }
@@ -15,101 +21,60 @@ function getAxisFromScores(scores) {
 
 function drawRadarChart(element_id, scores1, scores2) {
 
-    var w = 150,
-        h = 150;
+    var w = 250,
+        h = 250;
 
     var colorscale = d3.scale.category10();
 
-//Legend titles
-    var LegendOptions = ['Actuale', 'Dorite', 'placeholder'];
-
-    var Options = ["A", "B", "C", "D"];
-    var OptionLabels = {
-        "A": "Cultură de tip clan",
-        "B": "Cultură autocrată",
-        "C": "Cultură de piață",
-        "D": "Cultură ierarhică"
-    };
-
-//Data
+    var LegendOptions = ['Actuale', 'Dorite'];
 
     var data1 = getAxisFromScores(scores1);
     var data2 = getAxisFromScores(scores2);
-    var data3 = [
-            {axis: "A", value: 100},
-            {axis: "B", value: 100},
-            {axis: "C", value: 100},
-            {axis: "D", value: 100}
-        ];
 
-    var d = [data1, data2, data3];
+    var d = [data1, data2];
 
-//Options for the Radar chart, other than default
-    var mycfg = {
+    var cfg = {
         w: w,
         h: h,
-        maxValue: 0.6,
-        levels: 5,
-        ExtraWidthX: 300
+        maxValue: 75,
+        levels: 7,
+        ExtraWidthX: 500,
+        ExtraWidthY: 200,
+        color: colorscale
     };
 
-//Call function to draw the Radar chart
-//Will expect that data is in %'s
-    RadarChart.draw("#" + element_id, d, mycfg);
+    RadarChart.draw("#" + element_id, d, cfg);
 
-////////////////////////////////////////////
-/////////// Initiate legend ////////////////
-////////////////////////////////////////////
-/*
-    var svg = d3.select('#body')
-        .selectAll('svg')
-        .append('svg')
-        .attr("width", w + 300)
-        .attr("height", h + 300);
+var svg = d3.select("#" + element_id)
+	.selectAll('svg')
+	.append('svg')
+	.attr("width", w+300)
+	.attr("height", h+100);
 
-//Create the title for the legend
-    var text = svg.append("text")
-        .attr("class", "title")
-        .attr("x", w + (w / 2))
-        .attr("y", h + 80)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "18px")
-        .attr("font-weight", 500)
-        .text("Darth Vader");
 
-// //Initiate Legend
-    var legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("height", 100)
-            .attr("width", 200)
-            .attr('transform', 'translate(90,20)');
-    //Create colour squares
-    legend.selectAll('rect')
-        .data(LegendOptions)
-        .enter()
-        .append("rect")
-        .attr("x", w - 65)
-        .attr("y", function (d, i) {
-            return i * 20;
-        })
-        .attr("width", 10)
-        .attr("height", 10)
-        .style("fill", function (d, i) {
-            return colorscale(i);
-        });
-    //Create text next to squares
-    legend.selectAll('text')
-        .data(LegendOptions)
-        .enter()
-        .append("text")
-        .attr("x", w - 52)
-        .attr("y", function (d, i) {
-            return i * 20 + 9;
-        })
-        .attr("font-size", "11px")
-        .attr("fill", "#737373")
-        .text(function (d) {
-            return d;
-        });
-        */
+var legend = svg.append("g")
+	.attr("class", "legend")
+	.attr("height", 100)
+	.attr("width", 200)
+	.attr('transform', 'translate(-50,0)');
+
+	legend.selectAll('rect')
+	  .data(LegendOptions)
+	  .enter()
+	  .append("rect")
+	  .attr("x", w - 65)
+	  .attr("y", function(d, i){ return i * 20;})
+	  .attr("width", 10)
+	  .attr("height", 10)
+	  .style("fill", function(d, i){ return colorscale(i);});
+
+	legend.selectAll('text')
+	  .data(LegendOptions)
+	  .enter()
+	  .append("text")
+	  .attr("x", w - 52)
+	  .attr("y", function(d, i){ return i * 20 + 9;})
+	  .attr("font-size", "13px")
+	  .attr("fill", "#222222")
+	  .text(function(d) { return d; });
 }
