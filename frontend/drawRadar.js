@@ -21,8 +21,8 @@ function getAxisFromScores(scores) {
 
 function drawRadarChart(element_id, scores1, scores2) {
 
-    var w = 250,
-        h = 250;
+    var w = 200,
+        h = 200;
 
     var colorscale = d3.scale.category10();
 
@@ -54,8 +54,8 @@ var svg = d3.select("#" + element_id)
 var legend = svg.append("g")
 	.attr("class", "legend")
 	.attr("height", 100)
-	.attr("width", 200)
-	.attr('transform', 'translate(-150,30)');
+	.attr("width", 100)
+	.attr('transform', 'translate(-60,30)');
 
 	legend.selectAll('rect')
 	  .data(LegendOptions)
@@ -73,7 +73,7 @@ var legend = svg.append("g")
 	  .append("text")
 	  .attr("x", w - 52)
 	  .attr("y", function(d, i){ return i * 20 + 9;})
-	  .attr("font-size", "13px")
-	  .attr("fill", "#222222")
+	  .attr("font-size", "9px")
+	  .attr("fill", "#111111")
 	  .text(function(d) { return d; });
 }

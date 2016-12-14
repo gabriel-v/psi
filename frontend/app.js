@@ -17,7 +17,8 @@ app.controller(
         '$timeout',
         '$interval',
         function ($scope, $http, $timeout, $interval) {
-            $scope.backend = "http://localhost:8000";
+            //$scope.backend = "http://localhost:8000";
+            $scope.backend = "http://" + location.host.split(":")[0] + ":8000";
             $scope.questionsEndpoint = $scope.backend + "/questions";
             $scope.submitEndpoint = $scope.backend + "/submit";
             $scope.stateEndpoint = $scope.backend + "/state";
@@ -76,7 +77,6 @@ app.controller(
                         continue;
                     }
                     next = next + 1;
-                    console.log(next);
                 }
 
                 if (next === id)
@@ -192,15 +192,6 @@ app.controller(
 
             $scope.drawSingleGraph = function (element_id, scores) {
                 drawRadarChart(element_id, scores["1"], scores["2"]);
-                console.log(
-                    "drawRadarChart('" +
-                    element_id +
-                    "', " +
-                    JSON.stringify(scores["1"]) +
-                    ", " +
-                    JSON.stringify(scores["2"]) +
-                    ")"
-                );
             };
 
 
