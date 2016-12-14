@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html ng-app="PsiApp">
 <head>
-    <title>PSI Project</title>
+    <title>Organizații</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/locale/ro.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -19,8 +19,12 @@
 
 <div id="header">
     <h1>
-        Psi
+        Organizații
     </h1>
+    <p>
+        Această pagină a fost implementată ca proiect pentru Psihoinventică, anul 2,
+        Facultatea de Automatică și Calculatoare, Universitatea Politehnica din București.
+    </p>
 </div>
 
 <div class="ng-cloak" ng-show="!showLoading">
@@ -84,8 +88,7 @@
             <div ng-repeat="result in ownResults">
                 <div>
                     <div id="{{ 'chart-personal-' + result.id}}"></div>
-                    {{ result.name }}
-                    {{ result.date }}
+                    {{ result.name }}   {{ result.date }}
                 </div>
             </div>
         </div>
@@ -96,9 +99,8 @@
             </h1>
             <div ng-repeat="result in recentResults">
                 <div>
-                    <div data-ng-init="drawGraphs()" id="{{ 'chart-recent-' + result.id}}"></div>
-                    {{ result.name }}
-                    {{ result.date }}
+                    <div id="{{ 'chart-recent-' + result.id}}"></div>
+                    {{ result.name }}  {{ result.date }}
                 </div>
             </div>
         </div>

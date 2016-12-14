@@ -41,7 +41,7 @@ class Session(models.Model):
     def as_json_with_scores(self):
         return {
             "name": self.name,
-            "date": self.date_submitted.isoformat(),
+            "date": self.date_submitted.strftime("%Y-%m-%d %H:%M"),
             "scores": self.calculate_scores(),
             "id": self.id,
         }
@@ -64,7 +64,7 @@ class Session(models.Model):
         ids = set(response.choice.question.question_group.id for response in self.response_set.all())
         scores = {}
         for qgid in ids:
-            ans = self.response_set.filter(choice__question__question_group_id=1)
+            ans = self.response_set.filter(choice__question__question_group_id=qgid)
             scores[qgid] = average(ans)
         return scores
 

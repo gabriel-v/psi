@@ -12,7 +12,7 @@ function getAxisFromScores(scores) {
         var o = Options[i];
         objs.push({
             axis: OptionLabels[o],
-            value: scores[o]
+            value: scores[o] / 100.0
         });
     }
 
@@ -36,11 +36,10 @@ function drawRadarChart(element_id, scores1, scores2) {
     var cfg = {
         w: w,
         h: h,
-        maxValue: 75,
-        levels: 7,
-        ExtraWidthX: 500,
-        ExtraWidthY: 200,
-        color: colorscale
+        maxValue: 0.75,
+        levels: 5,
+        color: colorscale,
+        ExtraWidthX: 300
     };
 
     RadarChart.draw("#" + element_id, d, cfg);
@@ -48,15 +47,15 @@ function drawRadarChart(element_id, scores1, scores2) {
 var svg = d3.select("#" + element_id)
 	.selectAll('svg')
 	.append('svg')
-	.attr("width", w+300)
-	.attr("height", h+100);
+	.attr("width", w)
+	.attr("height", h);
 
 
 var legend = svg.append("g")
 	.attr("class", "legend")
 	.attr("height", 100)
 	.attr("width", 200)
-	.attr('transform', 'translate(-50,0)');
+	.attr('transform', 'translate(-150,30)');
 
 	legend.selectAll('rect')
 	  .data(LegendOptions)
