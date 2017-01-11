@@ -34,6 +34,30 @@ app.controller(
             $scope.questionData = {};
             $scope.statusPulled = false;
 
+            $scope.showAdditionalGraphs = false;
+            $scope.graphs = {
+                "actuale": {
+                    "A": 25,
+                    "B": 25,
+                    "C": 25,
+                    "D": 25
+                },
+                "dorite": {
+                    "A": 25,
+                    "B": 25,
+                    "C": 25,
+                    "D": 25
+                }
+            };
+
+            $scope.doShowAdditionalGraphs = function() {
+                if(!$scope.showAdditionalGraphs) {
+                    $scope.showAdditionalGraphs = true;
+                }
+                drawRadarChart("additionalGraph", $scope.graphs['actuale'], $scope.graphs['dorite']);
+                console.log($scope.graphs);
+            };
+
             $scope.responses = [];
 
             for (var i = 1; i <= 48; i++) {
@@ -171,6 +195,7 @@ app.controller(
 
                         angular.element("#results-block", $scope.drawGraphs);
                         $scope.drawGraphs();
+                        $scope.doShowAdditionalGraphs();
                     }, function (msg) {
                         $scope.errorReason = errorString(msg);
                         $scope.showLoading = false;
@@ -211,7 +236,7 @@ app.controller(
             };
 
             $scope.pullStatus();
-            $interval($scope.pullStatus, 32123); // 32s
+            $interval($scope.pullStatus, 132123); // 132s
 
         }
     ]

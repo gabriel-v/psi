@@ -104,7 +104,7 @@
                 <hr>
                 <div class="col-xs-12">
                     <h1>
-                    Rezultate personale
+                        Rezultate personale
                     </h1>
                 </div>
                 <div class="col-md-6" ng-repeat="result in ownResults">
@@ -121,7 +121,7 @@
                 <hr>
                 <div class="col-xs-12">
                     <h1>
-                    Rezultate recente
+                        Rezultate recente
                     </h1>
                 </div>
                 <div class="col-md-6" ng-repeat="result in recentResults">
@@ -131,6 +131,77 @@
                     <div class="col-md-7">
                         <div id="{{ 'chart-recent-' + result.id}}"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="additionalGraphs" class="row">
+            <hr>
+            <div ng-show="!showAdditionalGraphs">
+                <form ng-submit="doShowAdditionalGraphs()">
+                    <button style="width:100%" class="btn-primary btn-lg">Editorul de grafice</button>
+                </form>
+            </div>
+            <div ng-show="showAdditionalGraphs">
+                <form ng-submit="doShowAdditionalGraphs()">
+                    <div class="row">
+                        <div class="col-lg-12"><h1>Caracteristici actuale</h1></div>
+                        <div class="col-md-3">
+                            A
+                            <input type="text" ng-model="graphs.actuale.A" xxxvalue="25"
+                                   ng-change="doShowAdditionalGraphs">
+                        </div>
+                        <div class="col-md-3">
+                            B
+                            <input type="text" ng-model="graphs.actuale.B" xxxvalue="25"
+                                   ng-change="doShowAdditionalGraphs">
+                        </div>
+                        <div class="col-md-3">
+                            C
+                            <input type="text" ng-model="graphs.actuale.C" xxxvalue="25"
+                                   ng-change="doShowAdditionalGraphs">
+                        </div>
+                        <div class="col-md-3">
+                            D
+                            <input type="text" ng-model="graphs.actuale.D" xxvalue="25"
+                                   ng-change="doShowAdditionalGraphs">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12"><h1>Caracteristici dorite</h1></div>
+                        <div class="col-md-3">
+                            A
+                            <input type="text" ng-model="graphs.dorite.A" xxvalue="25"
+                                   ng-change="doShowAdditionalGraphs">
+                        </div>
+                        <div class="col-md-3">
+                            B
+                            <input type="text" ng-model="graphs.dorite.B" xxvalue="25"
+                                   ng-change="doShowAdditionalGraphs">
+                        </div>
+                        <div class="col-md-3">
+                            C
+                            <input type="text" ng-model="graphs.dorite.C" xxvalue="25"
+                                   ng-change="doShowAdditionalGraphs">
+                        </div>
+                        <div class="col-md-3">
+                            D
+                            <input type="text" ng-model="graphs.dorite.D" xxvalue="25"
+                                   ng-change="doShowAdditionalGraphs">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button ng-click="doShowAdditionalGraphs" style="width:100%" class="btn-primary btn-lg">
+                                Actualizează graficul
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div id="additionalGraph">
+
                 </div>
             </div>
         </div>
